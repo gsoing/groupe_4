@@ -14,6 +14,6 @@ import java.util.List;
 public class DocumentsList {
     private int page;
     private int nbElements;
-    private List<Document> documentList;
+    private List<Documents> documentList;
 
 }

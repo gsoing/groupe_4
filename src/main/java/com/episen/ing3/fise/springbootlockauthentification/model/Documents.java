@@ -27,8 +27,9 @@ public class Documents {
     @LastModifiedDate
     private LocalDateTime updated;
 
-    String title ;
-    String creator;
-    String editor;
-    String body ;
+    private String title ;
+    private String creator;
+    private String editor;
+    private String body ;
+    private enum status {VALIDATED,CREATED}
 }
