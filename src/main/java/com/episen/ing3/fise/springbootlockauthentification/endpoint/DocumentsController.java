@@ -1,6 +1,5 @@
-package com.episen.ing3.fise.springbootlockauthentification.endpoint.documents;
+package com.episen.ing3.fise.springbootlockauthentification.endpoint;
 
-import com.episen.ing3.fise.springbootlockauthentification.endpoint.authentication.AuthenticationController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;

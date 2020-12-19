@@ -1,4 +1,4 @@
-package com.episen.ing3.fise.springbootlockauthentification.endpoint.authentication;
+package com.episen.ing3.fise.springbootlockauthentification.endpoint;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
