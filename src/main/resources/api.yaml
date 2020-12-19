@@ -1,0 +1,284 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Documents Management
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:8080/
+security:
+  - basicAuth: []
+paths:
+  /documents:
+    get:
+      summary: Liste tous les documents
+      description: retounre une liste de tous les documents présents dans le système
+      tags:
+        - documents
+      parameters:
+        - name: page
+          schema: 
+            type: integer
+          in: query
+          description: numéro de la page à retourner
+        - name: pageSize
+          schema: 
+            type: integer
+          in: query
+          description: nombre de documents par page
+      responses:
+        '200':
+          description: une page de résultat
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/documentsList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition"
+    post:
+      summary: Crée un document
+      tags:
+        - documents
+      requestBody:
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/document'
+      responses:
+        '201':
+          description: The document created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/documentsList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition"
+  /documents/{documentId}:
+    parameters:
+      - $ref: "#/components/parameters/documentId"
+    get:
+      summary: Récupère un document
+      tags:
+        - document
+      responses:
+        '200':
+          description: le document correspondant à l'identifiant
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/document"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition"
+    put:
+      summary: Met à jour un document
+      tags:
+        - document
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/document"
+      responses:
+        200:
+          description: le document mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/document"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition"     
+  /documents/{documentId}/status:
+    parameters:
+      - $ref: "#/components/parameters/documentId"
+    put:
+      tags:
+        - status
+      description: définis le status d'un document
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+              enum: 
+                - CREATED
+                - VALIDATED
+      responses:
+        204:
+          description: rien à retourner
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition"
+  /documents/{documentId}/lock:
+    parameters:
+      - $ref: "#/components/parameters/documentId"
+    get:
+      tags:
+        - lock
+      description: retourne le verrou posé ou rien si aucun verrou
+      responses:
+        200:
+          description: le verrou posé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/lock"
+        204:
+          description: aucun verrou n'est posé
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition"  
+    put:
+      tags:
+        - lock
+      description: pose un verrou sur le document
+      responses:
+        200:
+          description: le verrou posé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/lock"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition" 
+    delete:
+      tags: 
+        - lock
+      description: supprime le verrou sur le document
+      responses:
+        204:
+          description: le verrou a été supprimé
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDefinition" 
+components:
+  parameters:
+    documentId:
+      name: documentId
+      in: path
+      required: true
+      description: identifiant du document à récupérer
+      schema:
+        type: string
+  schemas:
+    pageData:
+      description: objet générique pour les résultats de recherche
+      type: object
+      properties:
+        page: 
+          type: integer
+          description: le numéro de la page courante
+        nbElements:
+          description: le nombre total d'element
+          type: integer
+    documentSummary:
+      description: résumé d'un document
+      type: object
+      properties:
+        documentId:
+          type: string
+          description: identifiant du document
+        created: 
+          type: string
+          format: date-time
+          description: la date de création
+        updated:
+          type: string
+          format: date-time
+          description: date de la mise à jour
+        title:
+          type: string
+          description: titre du document
+    document: 
+      description: a document
+      allOf: 
+        - $ref: "#/components/schemas/documentSummary"
+      properties:
+        creator: 
+          type: string
+          description: le nom du créateur du document
+        editor:
+          type: string
+          description: le nom du dernier utilisateur qui l'a mis à jour
+        body:
+          type: string
+          description: le texte du document
+        status:
+          type: string
+          description: statut du document
+          enum:
+            - CREATED
+            - VALIDATED
+    documentsList:
+      description: la liste des résultats d'une recherche de document
+      allOf: 
+        - $ref: '#/components/schemas/pageData'
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/documentSummary"
+    lock:
+      description: un verrou
+      type: object
+      properties:
+        owner:
+          type: string
+          description: utilisateur propriétaire du verrou
+        created: 
+          description: date de la pose du verrou
+          type: string
+          format: date-time
+    errorDefinition:
+      description: la description de l'erreur
+      type: object
+      properties:
+        errorType: 
+          type: string
+          description: le type d'erreur
+          enum:
+            - TECHNICAL
+            - FUNCTIONAL
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              errorCode: 
+                type: string
+                description: le code de l'erreur
+              errorMessage:
+                type: string
+                description: message d'erreur
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
