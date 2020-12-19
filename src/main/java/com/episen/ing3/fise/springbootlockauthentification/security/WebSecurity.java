@@ -21,10 +21,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("user1").password(passwordEncoder().encode("user1password"))
-                .roles("USER");
+                .roles("REDACTEUR");
         auth.inMemoryAuthentication()
                 .withUser("user2").password(passwordEncoder().encode("user3password"))
-                .roles("ADMIN");
+                .roles("RELECTEUR");
     }
 
     @Override
@@ -37,6 +37,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/**/auth").permitAll()
+                .antMatchers("/api/**/documents").hasRole("REDACTEUR")
                 .and()
                 .httpBasic()
                 .and()
