@@ -18,7 +18,7 @@ import javax.websocket.server.PathParam;
 @RequestMapping(DocumentController.PATH)
 public class DocumentController {
 
-    public static final String PATH= "/api/v1/document";
+    public static final String PATH= "/api/v1/documents";
 
     @Autowired
     DocumentService documentService;
