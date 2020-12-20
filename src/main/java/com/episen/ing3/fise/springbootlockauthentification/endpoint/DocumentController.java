@@ -36,9 +36,12 @@ public class DocumentController {
     }
 
     @PutMapping("/{documentId}")
-    public  ResponseEntity<Documents> putDocument(@PathVariable("documentsId") String documentId, @Valid @RequestBody Documents document) {
-
-        return ResponseEntity.ok(Documents.builder().build());
+    public  ResponseEntity<Documents> putDocument(@PathVariable("documentId") String documentId, @Valid @RequestBody Documents document) {
+        document.setDocumentId(documentId);
+        Documents updateDocument = documentService.updateDocument(document);
+        if(updateDocument==null)
+            return (ResponseEntity<Documents>) ResponseEntity.notFound();
+        return ResponseEntity.status(HttpStatus.OK).body(updateDocument);
     }
 
 }
