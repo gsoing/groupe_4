@@ -1,11 +1,7 @@
 package com.episen.ing3.fise.springbootlockauthentification.endpoint;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -15,7 +11,11 @@ public class AuthenticationController {
     public static final String PATH= "/api/v1/auth";
 
     @GetMapping
-    public ResponseEntity<String> testPublic(Authentication authentication) {
+    public ResponseEntity<String> testPublic() {
+        return ResponseEntity.ok("Bienvenue sur l'api");
+    }
+    @PostMapping
+    public ResponseEntity<String> test() {
         return ResponseEntity.ok("Bienvenue sur l'api");
     }
 }

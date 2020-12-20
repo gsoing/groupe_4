@@ -31,8 +31,8 @@ public class DocumentService {
         Documents createdDocuments = documentRepository.save(document);
         return createdDocuments;
     }
-    public Documents getDocument(int id){
-        Documents document = documentRepository.findById(String.valueOf(id)).orElseThrow(()  -> null);
+    public Documents getDocument(String id){
+        Documents document = documentRepository.findById(id).orElseThrow(()  -> null);
         return document;
     }
 

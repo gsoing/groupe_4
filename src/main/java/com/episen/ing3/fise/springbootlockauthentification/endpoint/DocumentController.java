@@ -6,7 +6,6 @@ import com.episen.ing3.fise.springbootlockauthentification.model.Documents;
 import com.episen.ing3.fise.springbootlockauthentification.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -25,7 +24,9 @@ public class DocumentController {
     DocumentService documentService;
 
     @GetMapping("/{documentId}")
-    public  ResponseEntity<Documents> getDocument(@PathParam("documentId") int documentId, Authentication authentication) {
+    public  ResponseEntity<Documents> getDocument(@PathVariable("documentId") String documentId) {
+        if(documentId==null)
+            return (ResponseEntity<Documents>) ResponseEntity.badRequest();
         Documents documents = documentService.getDocument(documentId);
         if(documents==null)
             return (ResponseEntity<Documents>) ResponseEntity.notFound();
@@ -35,7 +36,7 @@ public class DocumentController {
     }
 
     @PutMapping("/{documentId}")
-    public  ResponseEntity<Documents> putDocument(@PathParam("documentsId") int documentId, @Valid @RequestBody Documents document, Authentication authentication) {
+    public  ResponseEntity<Documents> putDocument(@PathVariable("documentsId") String documentId, @Valid @RequestBody Documents document) {
 
         return ResponseEntity.ok(Documents.builder().build());
     }
