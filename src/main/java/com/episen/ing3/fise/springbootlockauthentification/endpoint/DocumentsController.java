@@ -7,6 +7,7 @@ import com.episen.ing3.fise.springbootlockauthentification.service.DocumentServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,8 @@ public class DocumentsController {
     }
 
     @PostMapping
-    public ResponseEntity<Documents> createDocument(@RequestBody Documents document) {
+    public ResponseEntity<Documents> createDocument(@RequestBody Documents document, Authentication authentication) {
+        document.setCreator(authentication.getName());
         Documents documents = documentService.createDocument(document);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

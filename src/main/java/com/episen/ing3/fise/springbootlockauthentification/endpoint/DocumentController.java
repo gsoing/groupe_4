@@ -7,6 +7,7 @@ import com.episen.ing3.fise.springbootlockauthentification.service.DocumentServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -37,11 +38,14 @@ public class DocumentController {
     }
 
     @PutMapping("/{documentId}")
-    public  ResponseEntity<Documents> putDocument(@PathVariable("documentId") String documentId, @Valid @RequestBody Documents document) {
+    public  ResponseEntity<Documents> putDocument(@PathVariable("documentId") String documentId, @Valid @RequestBody Documents document, Authentication authentication) {
         document.setDocumentId(documentId);
+        document.setEditor(authentication.getName());
         Documents updateDocument = documentService.updateDocument(document);
         if(updateDocument==null)
-            return (ResponseEntity<Documents>) ResponseEntity.notFound();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if(updateDocument.getStatus()== Documents.Status.VALIDATED)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         return ResponseEntity.status(HttpStatus.OK).body(updateDocument);
     }
 
