@@ -44,6 +44,7 @@ public class DocumentController {
             return (ResponseEntity<Documents>) ResponseEntity.notFound();
         return ResponseEntity.status(HttpStatus.OK).body(updateDocument);
     }
+
     //TODO put text/plain
     //DISGUSTING but it works
     @PutMapping(value = "/{documentId}/status")

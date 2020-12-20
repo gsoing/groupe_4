@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -29,6 +30,8 @@ public class DocumentService {
         if(document==null){
             return null;
         }
+        if(document.getStatus()== Documents.Status.VALIDATED)
+            return document;
         document.setUpdated(LocalDateTime.now());
         document.setBody(updatedDocument.getBody());
         document.setEditor(updatedDocument.getEditor());//TODO get editor
@@ -48,5 +51,9 @@ public class DocumentService {
         }
         document.setStatus(status);
         return documentRepository.save(document);
+    }
+
+    public List<Documents> getAllDocuments() {
+        return documentRepository.findAll();
     }
 }

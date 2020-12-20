@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin
@@ -20,11 +22,9 @@ public class DocumentsController {
     DocumentService documentService;
 
     @GetMapping
-    public ResponseEntity<DocumentsList> getAllDocuments() {
-        return ResponseEntity.ok(DocumentsList.builder()
-                .nbElements(12)
-                .page(12)
-                .build());
+    public ResponseEntity<List<Documents>> getAllDocuments() {
+        List<Documents> documentsList = documentService.getAllDocuments();
+        return ResponseEntity.status(HttpStatus.OK).body(documentsList);
     }
 
     @PostMapping
