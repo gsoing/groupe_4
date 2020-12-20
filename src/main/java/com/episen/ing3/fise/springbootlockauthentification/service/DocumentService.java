@@ -31,7 +31,7 @@ public class DocumentService {
         }
         document.setUpdated(LocalDateTime.now());
         document.setBody(updatedDocument.getBody());
-        document.setEditor(updatedDocument.getEditor());
+        document.setEditor(updatedDocument.getEditor());//TODO get editor
         document.setTitle(updatedDocument.getTitle());
         Documents createdDocuments = documentRepository.save(document);
         return createdDocuments;
@@ -41,4 +41,12 @@ public class DocumentService {
         return document;
     }
 
+    public Documents updateStatus(String documentId, Documents.Status status) {
+        Documents document = documentRepository.findById(documentId).orElseThrow(()  -> null);
+        if(document==null) {
+            return null;
+        }
+        document.setStatus(status);
+        return documentRepository.save(document);
+    }
 }

@@ -6,6 +6,7 @@ import com.episen.ing3.fise.springbootlockauthentification.model.Documents;
 import com.episen.ing3.fise.springbootlockauthentification.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -43,5 +44,23 @@ public class DocumentController {
             return (ResponseEntity<Documents>) ResponseEntity.notFound();
         return ResponseEntity.status(HttpStatus.OK).body(updateDocument);
     }
+    //TODO put text/plain
+    //DISGUSTING but it works
+    @PutMapping(value = "/{documentId}/status")
+    public  ResponseEntity putStatus(@PathVariable("documentId") String documentId, @RequestBody String status) {
+        Documents updateDocument;
+        if (status.contains("VALIDATED")){
+            updateDocument = documentService.updateStatus(documentId, Documents.Status.VALIDATED);
+        }else if(status.contains("CREATED")){
+            updateDocument = documentService.updateStatus(documentId, Documents.Status.CREATED);
+        }else{
+            return (ResponseEntity) ResponseEntity.badRequest();
+        }
+        if(updateDocument==null)
+            return (ResponseEntity) ResponseEntity.notFound();
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
