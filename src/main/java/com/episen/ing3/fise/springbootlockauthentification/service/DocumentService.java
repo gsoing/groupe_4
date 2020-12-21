@@ -26,7 +26,7 @@ public class DocumentService {
     }
 
     public Documents updateDocument(Documents updatedDocument){
-        Documents document = documentRepository.findById(updatedDocument.getDocumentId()).orElseThrow(()  -> null);
+        Documents document = documentRepository.findById(updatedDocument.getDocumentId()).orElse(null);
         if(document==null){
             return null;
         }
@@ -40,12 +40,12 @@ public class DocumentService {
         return createdDocuments;
     }
     public Documents getDocument(String id){
-        Documents document = documentRepository.findById(id).orElseThrow(()  -> null);
+        Documents document = documentRepository.findById(id).orElse(null);
         return document;
     }
 
     public Documents updateStatus(String documentId, Documents.Status status) {
-        Documents document = documentRepository.findById(documentId).orElseThrow(()  -> null);
+        Documents document = documentRepository.findById(documentId).orElse(null);
         if(document==null) {
             return null;
         }
