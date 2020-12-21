@@ -28,32 +28,25 @@ public class LockController {
     public ResponseEntity<Lock> getLock(@PathVariable("documentId") String documentId) {
         Lock lock = lockService.getLockByDocumentId(documentId);
         if (lock==null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(204).build();
         return ResponseEntity.ok().body(lock);
     }
 
     @PutMapping("/{documentId}/lock")
     public ResponseEntity<Lock> putLock(@PathVariable("documentId") String documentId, Authentication authentication) {
-        Documents documents = documentService.getDocument(documentId);
-        if (documents==null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        documentService.getDocument(documentId);
 
         Lock lock = new Lock(documentId,authentication.getName(), null);
         Lock createdLock = lockService.createLock(lock);
-        if (createdLock==null)
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        return ResponseEntity.ok().body(createdLock);
+        return ResponseEntity.status(HttpStatus.LOCKED).body(createdLock);
 
     }
 
     @DeleteMapping("/{documentId}/lock")
     public ResponseEntity deleteLock(@PathVariable("documentId") String documentId, Authentication authentication) {
         Lock lock = new Lock(documentId,authentication.getName(),null);
-        if(lockService.deleteLock(lock)){
-            return ResponseEntity.ok().build();
-        }else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+        lockService.deleteLock(lock);
+        return ResponseEntity.ok().build();
 
 
     }

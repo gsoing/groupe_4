@@ -21,4 +21,11 @@ public class ConflictException extends AbstractDocumentException {
                         .message(message)
                         .build());
     }
+    public ConflictException() {
+        super(HttpStatus.CONFLICT,
+                ErrorMessage.builder()
+                        .code(CONFLICT_CODE)
+                        .message(CONFLICT_MESSAGE)
+                        .build());
+    }
 }

@@ -1,5 +1,7 @@
 package com.episen.ing3.fise.springbootlockauthentification.service;
 
+import com.episen.ing3.fise.springbootlockauthentification.exception.ConflictException;
+import com.episen.ing3.fise.springbootlockauthentification.exception.ForbiddenException;
 import com.episen.ing3.fise.springbootlockauthentification.exception.NotFoundException;
 import com.episen.ing3.fise.springbootlockauthentification.model.Documents;
 import com.episen.ing3.fise.springbootlockauthentification.repository.DocumentRepository;
@@ -28,14 +30,13 @@ public class DocumentService {
 
     public Documents updateDocument(Documents updatedDocument){
         Documents document = documentRepository.findById(updatedDocument.getDocumentId()).orElseThrow(NotFoundException::new);
-        if(document==null){
-            return null;
-        }
+
         if(document.getStatus()== Documents.Status.VALIDATED)
-            return document;
+            throw new ForbiddenException();
         if(document.getUpdated()!=null&&updatedDocument.getUpdated()!=null){
             if(!document.getUpdated().equals(updatedDocument.getUpdated()))
-                return document;
+                throw new ConflictException();
+
         }
 
 
@@ -53,10 +54,8 @@ public class DocumentService {
     }
 
     public Documents updateStatus(String documentId, Documents.Status status) {
-        Documents document = documentRepository.findById(documentId).orElse(null);
-        if(document==null) {
-            return null;
-        }
+        Documents document = documentRepository.findById(documentId).orElseThrow(NotFoundException::new);
+
         document.setStatus(status);
         return documentRepository.save(document);
     }

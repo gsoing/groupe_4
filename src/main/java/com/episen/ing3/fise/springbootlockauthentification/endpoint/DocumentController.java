@@ -2,6 +2,7 @@ package com.episen.ing3.fise.springbootlockauthentification.endpoint;
 
 
 
+import com.episen.ing3.fise.springbootlockauthentification.exception.ForbiddenException;
 import com.episen.ing3.fise.springbootlockauthentification.model.Documents;
 import com.episen.ing3.fise.springbootlockauthentification.model.Lock;
 import com.episen.ing3.fise.springbootlockauthentification.service.DocumentService;
@@ -47,7 +48,7 @@ public class DocumentController {
         Lock lock = lockService.getLockByDocumentId(documentId);
         if (lock!=null){
             if(!authentication.getName().equals(lock.getOwner()))
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                throw new ForbiddenException();
         }
 
         document.setDocumentId(documentId);

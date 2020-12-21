@@ -1,5 +1,8 @@
 package com.episen.ing3.fise.springbootlockauthentification.service;
 
+import com.episen.ing3.fise.springbootlockauthentification.exception.ConflictException;
+import com.episen.ing3.fise.springbootlockauthentification.exception.ForbiddenException;
+import com.episen.ing3.fise.springbootlockauthentification.exception.NotFoundException;
 import com.episen.ing3.fise.springbootlockauthentification.model.Lock;
 import com.episen.ing3.fise.springbootlockauthentification.repository.LockRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,23 +22,20 @@ public class LockService {
     }
 
     public Lock createLock(Lock lock){
-        Lock testLock = lockRepository.findById(lock.getDocument_Id()).orElse(null);
-        if(testLock!=null)
-            return null;
+        lockRepository.findById(lock.getDocument_Id()).orElseThrow(ConflictException::new);
         lock.setCreated(LocalDateTime.now());
         Lock createdLock = lockRepository.insert(lock);
         return createdLock;
     }
 
     public boolean deleteLock(Lock lockToDelete){
-        Lock lock = lockRepository.findById(lockToDelete.getDocument_Id()).orElse(null);
-        if(lock==null)
-            return false;
-        if(lock.getOwner().equals(lockToDelete.getOwner())){
-            lockRepository.delete(lock);
-            return true;
-        }
-        return false;
+        Lock lock = lockRepository.findById(lockToDelete.getDocument_Id()).orElseThrow(NotFoundException::new);
+
+        if(!lock.getOwner().equals(lockToDelete.getOwner()))
+            throw new ForbiddenException();
+
+        lockRepository.delete(lock);
+        return true;
 
     }
 
