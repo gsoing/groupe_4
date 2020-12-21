@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @RequestMapping(LockController.PATH)
 public class LockController {
 
-    public static final String PATH= "/api/v1/document";
+    public static final String PATH= "/api/v1/documents";
 
     @Autowired
     LockService lockService;

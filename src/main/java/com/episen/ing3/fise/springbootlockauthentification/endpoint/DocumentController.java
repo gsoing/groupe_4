@@ -57,8 +57,6 @@ public class DocumentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         if(updateDocument.getStatus()== Documents.Status.VALIDATED)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        if(updateDocument.getUpdated().equals(document.getUpdated()))
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         return ResponseEntity.status(HttpStatus.OK).body(updateDocument);
     }
 
