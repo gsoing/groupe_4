@@ -35,7 +35,8 @@ public class LockService {
             lockRepository.delete(lock);
             return true;
         }
-        return true;
+        return false;
+
     }
 
 

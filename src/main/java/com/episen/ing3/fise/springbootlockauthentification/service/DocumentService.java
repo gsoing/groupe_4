@@ -30,8 +30,15 @@ public class DocumentService {
         if(document==null){
             return null;
         }
-        if(document.getStatus()== Documents.Status.VALIDATED||document.getUpdated().equals(updatedDocument.getUpdated())==false)
+        if(document.getStatus()== Documents.Status.VALIDATED)
             return document;
+        if(document.getUpdated()!=null&&updatedDocument.getUpdated()!=null){
+            if(!document.getUpdated().equals(updatedDocument.getUpdated()))
+                return document;
+        }
+
+
+        
         document.setUpdated(LocalDateTime.now());
         document.setBody(updatedDocument.getBody());
         document.setEditor(updatedDocument.getEditor());
