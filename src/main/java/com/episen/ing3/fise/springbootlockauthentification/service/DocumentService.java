@@ -34,7 +34,7 @@ public class DocumentService {
             return document;
         document.setUpdated(LocalDateTime.now());
         document.setBody(updatedDocument.getBody());
-        document.setEditor(updatedDocument.getEditor());//TODO get editor
+        document.setEditor(updatedDocument.getEditor());
         document.setTitle(updatedDocument.getTitle());
         Documents createdDocuments = documentRepository.save(document);
         return createdDocuments;

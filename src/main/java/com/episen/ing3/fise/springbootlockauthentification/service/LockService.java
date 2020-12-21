@@ -13,18 +13,21 @@ public class LockService {
 
     private final LockRepository lockRepository;
 
-    private Lock getLockByDocumentId(String documentId){
+    public Lock getLockByDocumentId(String documentId){
         Lock lock = lockRepository.findById(documentId).orElse(null);
         return lock;
     }
 
-    private Lock createLock(Lock lock){
+    public Lock createLock(Lock lock){
+        Lock testLock = lockRepository.findById(lock.getDocument_Id()).orElse(null);
+        if(testLock==null)
+            return null;
         lock.setCreated(LocalDateTime.now());
         Lock createdLock = lockRepository.insert(lock);
         return createdLock;
     }
 
-    private boolean deleteLock(Lock lockToDelete){
+    public boolean deleteLock(Lock lockToDelete){
         Lock lock = lockRepository.findById(lockToDelete.getDocument_Id()).orElse(null);
         if(lock==null)
             return false;
