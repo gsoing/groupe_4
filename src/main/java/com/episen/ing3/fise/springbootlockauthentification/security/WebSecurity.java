@@ -45,6 +45,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/**/documents/{documentsId}").hasRole("REDACTEUR")
                 .antMatchers(HttpMethod.GET,"/api/**/documents/{documentsId}").hasRole("RELECTEUR")
                 .antMatchers(HttpMethod.GET,"/api/**/documents").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/**/lock").permitAll()
+                .antMatchers(HttpMethod.PUT,"/api/**/lock").hasRole("REDACTEUR")
+                .antMatchers(HttpMethod.PUT,"/api/**/lock").hasRole("RELECTEUR")
+                .antMatchers(HttpMethod.DELETE,"/api/**/lock").hasRole("REDACTEUR")
+                .antMatchers(HttpMethod.DELETE,"/api/**/lock").hasRole("RELECTEUR")
 
                 //.antMatchers("/api/**/documents").permitAll()
 
