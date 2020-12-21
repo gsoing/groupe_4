@@ -3,7 +3,7 @@ package com.episen.ing3.fise.springbootlockauthentification.exception;
 import com.episen.ing3.fise.springbootlockauthentification.dto.ErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public class BadRequestException extends AbstractTweetException {
+public class BadRequestException extends AbstractDocumentException {
 
     public static final BadRequestException DEFAULT = new BadRequestException();
 

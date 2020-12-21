@@ -3,7 +3,7 @@ package com.episen.ing3.fise.springbootlockauthentification.exception;
 import com.episen.ing3.fise.springbootlockauthentification.dto.ErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public class ConflictException extends AbstractTweetException {
+public class ConflictException extends AbstractDocumentException {
     public static final String CONFLICT_CODE = "err.func.wired.conflict";
     public static final String CONFLICT_MESSAGE =
             "The request could not be completed due to a conflict with the current state of the target resource";

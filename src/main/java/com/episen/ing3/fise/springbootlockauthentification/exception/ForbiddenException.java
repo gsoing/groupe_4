@@ -3,7 +3,7 @@ package com.episen.ing3.fise.springbootlockauthentification.exception;
 import com.episen.ing3.fise.springbootlockauthentification.dto.ErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public class ForbiddenException extends AbstractTweetException {
+public class ForbiddenException extends AbstractDocumentException {
 
     public static final ForbiddenException DEFAULT = new ForbiddenException();
 
