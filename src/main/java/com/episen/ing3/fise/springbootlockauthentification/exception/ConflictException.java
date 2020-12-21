@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class ConflictException extends AbstractDocumentException {
     public static final String CONFLICT_CODE = "err.func.wired.conflict";
     public static final String CONFLICT_MESSAGE =
-            "The request could not be completed due to a conflict with the current state of the target resource";
+            "The request could not be completed, the document is already locked by someone else";
 
     public static final ConflictException DEFAULT = new ConflictException(CONFLICT_MESSAGE);
 

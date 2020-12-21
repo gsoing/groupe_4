@@ -8,7 +8,7 @@ public class ForbiddenException extends AbstractDocumentException {
     public static final ForbiddenException DEFAULT = new ForbiddenException();
 
     public static final String FORBIDDEN_CODE = "err.func.wired.forbidden";
-    public static final String FORBIDDEN_MESSAGE = "The access is forbidden";
+    public static final String FORBIDDEN_MESSAGE = "The access is forbidden, you must have the right access";
 
     private ForbiddenException() {
         super(HttpStatus.FORBIDDEN,
