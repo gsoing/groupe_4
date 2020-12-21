@@ -20,7 +20,7 @@ public class LockService {
 
     public Lock createLock(Lock lock){
         Lock testLock = lockRepository.findById(lock.getDocument_Id()).orElse(null);
-        if(testLock==null)
+        if(testLock!=null)
             return null;
         lock.setCreated(LocalDateTime.now());
         Lock createdLock = lockRepository.insert(lock);
