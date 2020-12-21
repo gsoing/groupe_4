@@ -25,10 +25,11 @@ public class LockController {
     DocumentService documentService;
 
     @GetMapping("/{documentId}/lock")
-    public ResponseEntity<Lock> getLock() {
-
-
-        return ResponseEntity.ok(Lock.builder().build());
+    public ResponseEntity<Lock> getLock(@PathVariable("documentId") String documentId) {
+        Lock lock = lockService.getLockByDocumentId(documentId);
+        if (lock==null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok().body(lock);
     }
 
     @PutMapping("/{documentId}/lock")
@@ -46,8 +47,14 @@ public class LockController {
     }
 
     @DeleteMapping("/{documentId}/lock")
-    public ResponseEntity deleteLock(@RequestBody Documents documents) {
-        return ResponseEntity.ok("succesfull delete");
+    public ResponseEntity deleteLock(@PathVariable("documentId") String documentId, Authentication authentication) {
+        Lock lock = new Lock(documentId,authentication.getName(),null);
+        if(lockService.deleteLock(lock)){
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
 
     }
 }
