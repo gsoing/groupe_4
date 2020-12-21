@@ -7,6 +7,8 @@ import com.episen.ing3.fise.springbootlockauthentification.model.Documents;
 import com.episen.ing3.fise.springbootlockauthentification.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -60,7 +62,8 @@ public class DocumentService {
         return documentRepository.save(document);
     }
 
-    public List<Documents> getAllDocuments() {
-        return documentRepository.findAll();
+    public Page<Documents> getAllDocuments(Pageable pageable) {
+        Page<Documents> pages = documentRepository.findAll(pageable);
+        return pages;
     }
 }

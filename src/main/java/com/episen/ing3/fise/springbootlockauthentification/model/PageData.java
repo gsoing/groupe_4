@@ -11,9 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class DocumentsList {
+public class PageData {
     private int page;
     private int nbElements;
-    private List<Documents> documentList;
 
 }

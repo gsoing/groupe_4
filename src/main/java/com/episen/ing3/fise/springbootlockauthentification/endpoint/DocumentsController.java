@@ -1,14 +1,18 @@
 package com.episen.ing3.fise.springbootlockauthentification.endpoint;
 
 
+import com.episen.ing3.fise.springbootlockauthentification.model.DocumentList;
 import com.episen.ing3.fise.springbootlockauthentification.model.Documents;
-import com.episen.ing3.fise.springbootlockauthentification.model.DocumentsList;
 import com.episen.ing3.fise.springbootlockauthentification.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -23,8 +27,9 @@ public class DocumentsController {
     DocumentService documentService;
 
     @GetMapping
-    public ResponseEntity<List<Documents>> getAllDocuments() {
-        List<Documents> documentsList = documentService.getAllDocuments();
+    public ResponseEntity<Page<Documents>> getAllDocuments(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+        Page<Documents> documentsList = documentService.getAllDocuments(pageable);
+
         return ResponseEntity.status(HttpStatus.OK).body(documentsList);
     }
 
