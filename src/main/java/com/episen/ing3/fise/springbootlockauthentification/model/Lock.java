@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 @Document
 public class Lock {
 
+    @Id
+    private String document_Id;
     private String owner ;
 
     @CreatedDate
