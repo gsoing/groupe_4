@@ -21,6 +21,7 @@ public class LockService {
         return lock;
     }
 
+    // Dans l'absolu le propriétaire du verrou pourrait le reposer cela ne poserait pas de problèmes
     public Lock createLock(Lock lock){
         lockRepository.findById(lock.getDocument_Id()).orElseThrow(ConflictException::new);
         lock.setCreated(LocalDateTime.now());

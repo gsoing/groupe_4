@@ -30,7 +30,13 @@ public class DocumentService {
         return createdDocuments;
     }
 
+    /**
+     * Il manque la vérification du verrou, si un document est verrouillé seul le propriétaire du verrou peut le modifier
+     * @param updatedDocument
+     * @return
+     */
     public Documents updateDocument(Documents updatedDocument){
+        // Pkoi ne pas réutiliser la méthode getDocument qui fait déja cela ?
         Documents document = documentRepository.findById(updatedDocument.getDocumentId()).orElseThrow(NotFoundException::new);
 
         if(document.getStatus()== Documents.Status.VALIDATED)

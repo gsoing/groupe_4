@@ -28,6 +28,7 @@ public class DocumentsController {
 
     @GetMapping
     public ResponseEntity<Page<Documents>> getAllDocuments(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+        // Un contrôle sur la taille max de la page aurait été pas mal
         Page<Documents> documentsList = documentService.getAllDocuments(pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(documentsList);

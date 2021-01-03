@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 //@NoArgsConstructor
 @AllArgsConstructor
 @Document
+// C'est un document donc pas de pluriel ici
 public class Documents {
 
     @PersistenceConstructor

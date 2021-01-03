@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * C'est pourquoi cette class ?
+ */
 @Data
 @AllArgsConstructor
 @Builder

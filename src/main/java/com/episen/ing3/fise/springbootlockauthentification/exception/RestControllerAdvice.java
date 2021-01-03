@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+/**
+ * Techniquement il y en a plus que cela, déjà toutes les exceptions de spring
+ */
 @ControllerAdvice
 public class RestControllerAdvice {
 
